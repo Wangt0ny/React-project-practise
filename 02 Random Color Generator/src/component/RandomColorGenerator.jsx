@@ -54,8 +54,8 @@ function RandomColorGenerator() {
             justifyContent: 'center',
             alignItems: 'start'
         }}>
-            <button onClick={() => { setColorType('hex'); handleRgbToHex(color) }}>HEX格式</button>
-            <button onClick={() => { setColorType('rgb'); handleHexToRgb(color) }}>RGB格式</button>
+            <button onClick={() => { setColorType('hex'); colorType === 'rgb' ? handleRgbToHex(color) : null }}>HEX格式</button>
+            <button onClick={() => { setColorType('rgb'); colorType === 'hex' ? handleHexToRgb(color) : null }}>RGB格式</button>
             <button onClick={colorType === 'hex'
                 ? handleRandomHexColor
                 : handleRandomRgbColor}>生成隨機顏色
