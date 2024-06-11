@@ -3,38 +3,59 @@ import { useState } from "react";
 function RandomColorGenerator() {
 
     const [colorType, setColorType] = useState('hex');
-    const [color, setColor] = useState('#000000');
+    const [color, setColor] = useState(['00', '00', '00']);
 
     function RandomNumber(length) {
         return Math.floor(Math.random() * length)
     }
 
+    function handleRgbToHex(c) {
+        let newArray = [...c]
+        newArray = newArray.map(x => {
+            let hex = x.toString(16);
+            // console.log(hex)
+            return hex.length === 1 ? '0' + hex : hex
+        })
+        setColor(newArray)
+    }
+
+    function handleHexToRgb(c) {
+        let newArray = [...c]
+        newArray = newArray.map(x => {
+            let rgb = parseInt(x, 16);
+            return rgb
+        })
+        setColor(newArray)
+    }
+
     function handleRandomHexColor() {
         let hex = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 'A', 'B', 'C', 'D', 'E', 'F'];
 
-        let hexColor = '#';
-
-        for (let i = 0; i < 6; i++) {
-            hexColor += hex[RandomNumber(hex.length)];
+        let hexColor = []
+        for (let i = 0; i < 3; i++) {
+            hexColor.push(hex[RandomNumber(hex.length)].toString() + hex[RandomNumber(hex.length)].toString())
         }
+
         setColor(hexColor)
     }
 
     function handleRandomRgbColor() {
-        setColor(`rgb( ${RandomNumber(255)}, ${RandomNumber(255)}, ${RandomNumber(255)})`)
+        let rgbColor = [RandomNumber(256), RandomNumber(256), RandomNumber(256)]
+
+        setColor(rgbColor)
     }
 
     return (
         <div style={{
             width: '100vw',
             height: '100vh',
-            backgroundColor: color,
+            backgroundColor: colorType === 'hex' ? `#${color[0]}${color[1]}${color[2]}` : `rgb( ${color[0]}, ${color[1]}, ${color[2]})`,
             display: 'flex',
             justifyContent: 'center',
             alignItems: 'start'
         }}>
-            <button onClick={() => setColorType('hex')}>HEX格式</button>
-            <button onClick={() => setColorType('rgb')}>RGB格式</button>
+            <button onClick={() => { setColorType('hex'); handleRgbToHex(color) }}>HEX格式</button>
+            <button onClick={() => { setColorType('rgb'); handleHexToRgb(color) }}>RGB格式</button>
             <button onClick={colorType === 'hex'
                 ? handleRandomHexColor
                 : handleRandomRgbColor}>生成隨機顏色
@@ -46,7 +67,7 @@ function RandomColorGenerator() {
                 top: '50%',
                 left: '50%',
                 transform: 'translate(-50%, -50%)',
-            }}>{color}</h1>
+            }}>{colorType === 'hex' ? `#${color[0]}${color[1]}${color[2]}` : `rgb( ${color[0]}, ${color[1]}, ${color[2]})`}</h1>
         </div>
     );
 }
