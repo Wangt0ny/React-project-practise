@@ -1,9 +1,17 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 function RandomColorGenerator() {
 
     const [colorType, setColorType] = useState('hex');
     const [color, setColor] = useState(['00', '00', '00']);
+
+    // useEffect(() => {
+    //     if (colorType === 'hex') {
+    //         handleRgbToHex(color)
+    //     } else {
+    //         handleHexToRgb(color)
+    //     }
+    // }, [colorType])
 
     function RandomNumber(length) {
         return Math.floor(Math.random() * length)
